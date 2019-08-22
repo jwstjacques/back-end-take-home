@@ -9,12 +9,13 @@
     "port": 5432
   },
   "production": {
-    "username": "flight-routes",
-    "password": "1234",
-    "database": "flight-routes",
-    "host": "dbhost",
+    "username": "uswrncxwxfcgyy",
+    "password": "2a904679e0729742e1a646e909534625d30f3c5b62aa7d5c30ad4b92752309f4",
+    "database": "dcbarjihbcbiqe",
+    "host": "ec2-107-20-230-70.compute-1.amazonaws.com",
     "dialect": "postgres",
     "protocol": "postgres",
-    "port": "postgres://uswrncxwxfcgyy:2a904679e0729742e1a646e909534625d30f3c5b62aa7d5c30ad4b92752309f4@ec2-107-20-230-70.compute-1.amazonaws.com:5432/dcbarjihbcbiqe"
+    "port": 5432,
+    "uri": "postgres://uswrncxwxfcgyy:2a904679e0729742e1a646e909534625d30f3c5b62aa7d5c30ad4b92752309f4@ec2-107-20-230-70.compute-1.amazonaws.com:5432/dcbarjihbcbiqe"
   }
 }
