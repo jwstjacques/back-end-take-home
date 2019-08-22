@@ -1,0 +1,11 @@
+{
+  "development": {
+    "username": "flight-routes",
+    "password": "1234",
+    "database": "flight-routes",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "logging": false,
+    "port": 5432
+  }
+}
