@@ -21,7 +21,7 @@ const flightsController = require('../../controllers').flights;
  * @apiSuccess (200) {String} route.destination  Capitalized version of query paramater supplied destination
  * @apiSuccess (200) {String} route.origin Capitalized version of query paramater supplied origin
  * @apiSuccess (200) {Array}  route.shortest_path Array of airport objects in order of route
- * @apiSuccess (200) {String} route.shorest_path_string A well formed string of airport codes connected with an '->' ie. 'YYZ -> LAX'
+ * @apiSuccess (200) {String} route.shortest_path_string A well formed string of airport codes connected with an '->' ie. 'YYZ -> LAX'
  */
 router.get('/', async (req, res) => {
   const errors = {};
@@ -98,7 +98,7 @@ router.get('/', async (req, res) => {
     destination: destination,
     origin: origin,
     shortest_path: shortestPath,
-    shorest_path_string: shortestPathString
+    shortest_path_string: shortestPathString
   });
 });
 
