@@ -1,0 +1,28 @@
+{
+  "name": "back-end-take-home",
+  "version": "1.0.0",
+  "description": "Back end API for flight route search",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwstjacques/back-end-take-home.git"
+  },
+  "author": "Jason St. Jacques",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwstjacques/back-end-take-home/issues"
+  },
+  "homepage": "https://github.com/jwstjacques/back-end-take-home#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "express": "^4.17.1",
+    "mocha": "^6.2.0",
+    "nodemon": "^1.19.1",
+    "sequelize": "^5.15.2"
+  }
+}
