@@ -41,32 +41,7 @@ async function start() {
 
   await airlineImporter.add();
   await airportImporter.add();
+  await routeImporter.add();
 }
 
 start();
-
-// files.forEach((file) => {
-//   fs.createReadStream(path + file + '.csv')
-//     .pipe(csv())
-//     .on('data', (data) => {
-//       results.push(data);
-//     })
-//     .on('end', async () => {
-//       switch (file) {
-//         case 'airlines':
-//           console.log(results.length);
-//           await addCountries(results);
-//           const countries = await getCountries();
-//           // console.log(countries);
-//           console.log('airlines');
-//           break;
-//         case 'airports':
-//           console.log('airports');
-//           break;
-//         case 'routes':
-//           console.log('routes');
-//           break;
-//       }
-//       results = [];
-//     });
-// })

@@ -1,33 +1,74 @@
-const {
-  Airline,
-  Airport,
-  City,
-  Country,
-  Route
-} = require('../../server/models');
+const { Airline, Airport, City, Country } = require('../../server/models');
+
+async function addCities(results) {
+  const countries = await getCountries();
+
+  const inserts = [];
+
+  results.forEach((result) => {
+    inserts.push({
+      country_id: countries[result.Country],
+      name: result.City === '' ? result.Name : result.City
+    });
+  });
+
+  await City.bulkCreate(inserts);
+}
 
 async function addCountries(results) {
   const existingCountries = await getCountries();
   const existing = new Set();
+
   for (const country in existingCountries) {
-    existing.add(country.name);
+    existing.add(country);
   }
 
-  const countries = new Set();
+  const countriesToAdd = new Set();
   results.forEach((result) => {
-    if (
-      result.hasOwnProperty('Country') &&
-      !existing.hasOwnProperty(result.country)
-    ) {
-      countries.add(result.Country);
+    if (result.hasOwnProperty('Country') && !existing.has(result.Country)) {
+      countriesToAdd.add(result.Country);
     }
   });
 
-  const inserts = Array.from(countries).map((country) => {
+  const inserts = Array.from(countriesToAdd).map((country) => {
     return { name: country };
   });
 
   await Country.bulkCreate(inserts);
+}
+
+async function getAirlines() {
+  const airlines = await Airline.findAll({
+    attributes: ['id', 'name', 'two_digit_code']
+  });
+  const airlineObj = {};
+  for (const airline of airlines) {
+    airlineObj[airline.two_digit_code] = airline.id;
+  }
+
+  return airlineObj;
+}
+
+async function getAirports() {
+  const airports = await Airport.findAll({
+    attributes: ['id', 'name', 'three_letter_code']
+  });
+  const airportObj = {};
+  for (const airport of airports) {
+    airportObj[airport.three_letter_code] = airport.id;
+  }
+
+  return airportObj;
+}
+
+async function getCities() {
+  const cities = await City.findAll({ attributes: ['id', 'name'] });
+  const cityObj = {};
+  for (const city of cities) {
+    cityObj[city.name] = city.id;
+  }
+
+  return cityObj;
 }
 
 async function getCountries() {
@@ -40,12 +81,11 @@ async function getCountries() {
   return countryObj;
 }
 
-const test = async () => {
-  console.log('batman');
-};
-
 module.exports = {
+  addCities,
   addCountries,
-  getCountries,
-  test
+  getAirlines,
+  getAirports,
+  getCities,
+  getCountries
 };
