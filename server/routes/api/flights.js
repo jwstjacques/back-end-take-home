@@ -67,6 +67,13 @@ router.get('/', async (req, res) => {
     return res.status(422).json(airportExistence);
   }
 
+  // console.log('&&&&&&&&&&&&&&&&&&&&&&');
+  // await flightsController.bfs({
+  //   origin,
+  //   destination
+  // });
+  // console.log('&&&&&&&&&&&&&&&&&&&&&&');
+
   const shortestPath = await flightsController.getShortestPath({
     origin,
     destination

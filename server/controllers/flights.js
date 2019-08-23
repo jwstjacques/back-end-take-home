@@ -1,4 +1,4 @@
-const { Airport, Route } = require('../models');
+const { Airline, Airport, Route } = require('../models');
 
 let mapping = {};
 let routingMatrix = {};
@@ -50,6 +50,102 @@ const generateGraph = async function() {
     routingMatrix[originIndex][destinationIndex] = 1;
   });
 };
+
+async function bfs(params) {
+  const destination = params.destination.toUpperCase();
+  const origin = params.origin.toUpperCase();
+  const reverseRouteMap = {};
+  const visitedAirports = {};
+
+  let destinationFound = false;
+  let airportsToSearchFor = [origin];
+
+  visitedAirports[origin] = true;
+
+  while (airportsToSearchFor.length > 0) {
+    const search = airportsToSearchFor.shift();
+    const connectedAirports = [];
+
+    let counter = 200;
+    const flights = await Route.findAll({
+      attributes: ['id', 'distance_kms'],
+      include: [
+        {
+          attributes: ['name', 'two_digit_code', 'three_digit_code'],
+          model: Airline
+        },
+        {
+          as: 'originAirport',
+          attributes: ['three_letter_code'],
+          model: Airport,
+          where: {
+            three_letter_code: search
+          }
+        },
+        {
+          as: 'destinationAirport',
+          attributes: ['three_letter_code'],
+          model: Airport
+        }
+      ]
+    });
+
+    for (const flight of flights) {
+      const thisFlightOrigin = flight.originAirport.three_letter_code;
+      const thisFlightDestination = flight.destinationAirport.three_letter_code;
+
+      // console.log(flight.id);
+      // console.log(flight.Airline.name);
+      // console.log(flight.Airline.two_digit_code);
+      // console.log(flight.originAirport.three_letter_code);
+      // console.log(flight.destinationAirport.three_letter_code);
+
+      if (!visitedAirports.hasOwnProperty(thisFlightDestination)) {
+        // Tracking to build final route
+        if (!reverseRouteMap.hasOwnProperty(thisFlightDestination)) {
+          reverseRouteMap[thisFlightDestination] = new Set();
+        }
+
+        reverseRouteMap[thisFlightDestination].add(thisFlightOrigin);
+
+        visitedAirports[thisFlightDestination] = true;
+        connectedAirports.push(thisFlightDestination);
+      }
+
+      if (thisFlightDestination === destination) {
+        destinationFound = true;
+      }
+
+      // console.log('destinationFound', destinationFound);
+      // console.log(airportsToSearchFor);
+      // console.log('Map', reverseRouteMap);
+    }
+
+    // To continue searching
+    if (airportsToSearchFor.length === 0 && !destinationFound) {
+      airportsToSearchFor.concat(connectedAirports);
+    }
+  }
+
+  // Found the route
+  if (destinationFound) {
+    const connections = [];
+    connections.push(destination);
+    // Build the route backwards
+    while (connections[connections.length - 1] !== origin) {
+      const places = reverseRouteMap[connections[connections.length - 1]];
+      Array.from(places).forEach((place) => {
+        connections.push(place);
+      });
+      connections.push();
+    }
+
+    return connections.revrse();
+  }
+
+  // console.log('no route');
+  return null;
+}
 
 /*
  *  Generate an array of the shortest path between an origin and a destination airport
@@ -154,6 +250,7 @@ const getConnectedAirports = function(current) {
 };
 
 module.exports = {
+  bfs,
   generateMapping,
   getShortestPath
 };
