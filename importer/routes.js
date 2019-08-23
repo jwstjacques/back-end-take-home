@@ -28,8 +28,8 @@ async function add() {
             distance_kms: 0
           };
         });
-        // console.log(inserts);
-        // Airline.bulkCreate(inserts);
+        console.log('Inserting routes');
+        await Route.bulkCreate(inserts);
         console.log('End Adding Routes');
         resolve();
       });

@@ -36,7 +36,7 @@ async function add() {
         });
         // console.log(inserts);
         console.log('Inserting Airports');
-        Airport.bulkCreate(inserts);
+        await Airport.bulkCreate(inserts);
         console.log('End Adding Airports');
         resolve();
       });
