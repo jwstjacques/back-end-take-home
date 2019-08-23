@@ -12,14 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       }
     },
-    {
-      indexes: [
-        {
-          unique: true,
-          fields: ['name']
-        }
-      ]
-    }
+    {}
   );
   City.associate = function(models) {
     City.belongsTo(models.Country, {

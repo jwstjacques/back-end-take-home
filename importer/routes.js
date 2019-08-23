@@ -18,13 +18,11 @@ async function add() {
         console.log('----Start Adding Routes----');
         const airports = await getAirports();
         const airlines = await getAirlines();
-        console.log(airports);
         const inserts = results.map((row) => {
-          // console.log(airports[row.Destination]);
           return {
             airline_id: airlines[row['Airline Id']],
             destination_airport_id: airports[row.Destination],
-            origin_airport_id: airports[row.Destination],
+            origin_airport_id: airports[row.Origin],
             distance_kms: 0
           };
         });

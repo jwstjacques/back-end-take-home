@@ -28,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       indexes: [
         {
           unique: true,
-          fields: ['name']
-        },
-        {
-          unique: true,
           fields: ['three_letter_code']
         }
       ]
